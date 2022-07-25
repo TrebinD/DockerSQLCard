@@ -3,6 +3,7 @@ package test;
 import data.UserData;
 import dataHelper.DataHelper;
 import dataHelper.SQLHelper;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,11 @@ public class AuthorizationTest {
     public void after() {
         SQLHelper.resetStatus(userData.getName());
         SQLHelper.resetVerifyCode();
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        SQLHelper.resetBase();
     }
 
     @Test

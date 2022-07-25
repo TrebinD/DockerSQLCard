@@ -28,7 +28,10 @@ public class SQLHelper {
     @SneakyThrows
     public static String getValidVerifyCode(String login){
         setup();
-        String data = "SELECT code FROM auth_codes JOIN users ON user_id = users.id WHERE login = ? ORDER BY created DESC LIMIT 1;";
+        String data = "SELECT code FROM auth_codes " +
+                "JOIN users ON user_id = users.id " +
+                "WHERE login = ? " +
+                "ORDER BY created DESC LIMIT 1; ";
         return queryRunner.query(connection,data,new ScalarHandler<>(),login);
     }
 
@@ -44,6 +47,20 @@ public class SQLHelper {
         setup();
         String data = "SELECT status FROM users WHERE login = ?;";
         return queryRunner.query(connection,data,new ScalarHandler<>(),login);
+    }
+
+    @SneakyThrows
+    public static void resetBase(){
+        setup();
+        String data = "DELETE FROM auth_codes;";
+        String data2 = "DELETE FROM cards;";
+        String data3 = "DELETE FROM users;";
+
+        queryRunner.update(connection,data);
+        queryRunner.update(connection,data2);
+        queryRunner.update(connection,data3);
+
+
     }
 
 }
